@@ -1,10 +1,13 @@
 <?php
 function contaValida($username, $password) {
 	$link = mysqli_connect("localhost", "root", "", "sistema");
-	$sql = "SELECT * FROM account WHERE username = '".$username."' AND password = PASSWORD('$password')";
+	$sql = "SELECT active FROM account WHERE username = '".$username."' AND password = PASSWORD('$password')";
 	$result = mysqli_query($link, $sql);
 	if ($result) {
 		if ($row = mysqli_fetch_assoc($result)) {
+			if ($row["active"] != "Y") {
+				return false;
+			}
 			return true;
 		}
 	}
@@ -15,11 +18,11 @@ function registraConta($username) {
 	session_start();
 	session_unset();
 	$link = mysqli_connect("localhost", "root", "", "sistema");
-	$sql = "SELECT * FROM account WHERE username = '".$username."'";
+	$sql = "SELECT id_account FROM account WHERE username = '".$username."'";
 	$result = mysqli_query($link, $sql);
 	if ($result) {
 		if ($row = mysqli_fetch_assoc($result)) {
-			$_SESSION["CONTA_ID"] = $row["id"];
+			$_SESSION["CONTA_ID"] = $row["id_account"];
 		}
 	}
 }

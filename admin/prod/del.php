@@ -18,7 +18,7 @@ $id = mysqli_real_escape_string($link, $_GET['id']);
  
 if (isset($_GET['del']) && $_GET['del'] === "yes") {
  
-    $sql = "DELETE FROM prod WHERE id = '$id'";
+    $sql = "DELETE FROM product WHERE id = '$id'";
    
     if (mysqli_query($link, $sql)) {
         header("Location: /sistema/admin/prod/");
@@ -27,8 +27,8 @@ if (isset($_GET['del']) && $_GET['del'] === "yes") {
         echo "Erro ao apagar o produto: " . mysqli_error($link);
     }
 }
- 
-$sql = "SELECT id, nome, preco FROM prod WHERE id = '$id'";
+
+$sql = "SELECT id_product, name, sell_price FROM product WHERE id_product = '$id'";
 $result = mysqli_query($link, $sql);
  
 if (mysqli_num_rows($result) === 0) {
@@ -47,20 +47,20 @@ include("../menu.php");
 <table style="margin: 0 auto;">
     <tr>
         <td colspan="2" style="text-align: center;">
-            Tem certeza que realmente quer apagar o produto "<?= htmlspecialchars($row["nome"]); ?>"?
+            Tem certeza que realmente quer apagar o produto "<?= htmlspecialchars($row["name"]); ?>"?
         </td>
     </tr>
     <tr>
         <td style="text-align: right;">Nome:</td>
-        <td><?= htmlspecialchars($row["nome"]); ?></td>
+        <td><?= htmlspecialchars($row["name"]); ?></td>
     </tr>
     <tr>
         <td style="text-align: right;">Preço:</td>
-        <td><?= htmlspecialchars($row["preco"]); ?></td>
+        <td><?= htmlspecialchars($row["sell_price"]); ?></td>
     </tr>
     <tr>
         <td style="text-align: center;">
-            <a href="/sistema/admin/prod/del.php?id=<?= $row['id']; ?>&del=yes"><input type="button" value="SIM"></a>
+            <a href="/sistema/admin/prod/del.php?id=<?= $row['id_product']; ?>&del=yes"><input type="button" value="SIM"></a>
         </td>
         <td style="text-align: center;">
             <a href="/sistema/admin/prod/"><input type="button" value="NÃO"></a>

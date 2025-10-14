@@ -45,7 +45,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <script language="JavaScript" type="text/javascript">
-    //</script>
+    if (document.formLogin.username.value) {
+		document.formLogin.password.focus();
+	} else {
+		document.formLogin.username.focus();
+	}
+</script>
 
 <?php
 include("../footer.php");

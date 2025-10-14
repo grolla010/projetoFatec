@@ -19,16 +19,16 @@ include("../menu.php");
 	</tr>
 	<?php
 	$link = mysqli_connect("localhost", "root", "", "sistema");
-	$sql = "SELECT * FROM prod ORDER BY nome;";
+	$sql = "SELECT id_product, name, sell_price FROM product ORDER BY name;";
 	$result = mysqli_query($link, $sql);
 	while ($row = mysqli_fetch_assoc($result)) {
 		?>
 		<tr>
-			<td><?=$row["nome"];?></td>
-			<td><?=$row["preco"];?></td>
+			<td><?=$row["name"];?></td>
+			<td><?=$row["sell_price"];?></td>
 			<td>
-				<a href="/sistema/admin/prod/edit.php?id=<?=$row["id"];?>" style="color: black;">Editar</a> |
-				<a href="/sistema/admin/prod/del.php?id=<?=$row["id"];?>" style="color: black;">Excluir</a>
+				<a href="/sistema/admin/prod/edit.php?id=<?=$row["id_product"];?>" style="color: black;">Editar</a> |
+				<a href="/sistema/admin/prod/del.php?id=<?=$row["id_product"];?>" style="color: black;">Excluir</a>
 			</td>
 		</tr>
 		<?php
