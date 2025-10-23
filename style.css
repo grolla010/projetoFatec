@@ -162,3 +162,35 @@ button[type="submit"]:active {
 .register-link a:hover {
     text-decoration: underline;
 }
+
+.select-container {
+  position: relative;
+  width: 250px;
+}
+.select-search {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+}
+.dropdown-list div {
+  padding: 8px;
+  cursor: pointer;
+}
+.dropdown-list div:hover {
+  background: #f0f0f0;
+}
