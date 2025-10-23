@@ -48,13 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($error)) {
         $nome_seguro = mysqli_real_escape_string($link, $nome);
         $preco_seguro = mysqli_real_escape_string($link, $preco);
+        $active = ($ativo === "1") ? 'Y' : 'N';
 
         $sql = "UPDATE product SET 
             name = '$nome_seguro', 
             sell_price = '$preco_seguro', 
             buy_price = '" . mysqli_real_escape_string($link, $preco_compra) . "', 
             stock = '" . mysqli_real_escape_string($link, $estoque) . "', 
-            active = '" . mysqli_real_escape_string($link, $ativo) . "', 
+            active = '" . mysqli_real_escape_string($link, $active) . "', 
             id_account = '" . mysqli_real_escape_string($link, $id_conta) . "', 
             id_category = '" . mysqli_real_escape_string($link, $id_categoria) . "' 
             WHERE id_product = '$id'";
@@ -76,8 +77,6 @@ if (mysqli_num_rows($result) === 0) {
 }
 $row = mysqli_fetch_assoc($result);
 extract($row);
-//$nome = $row['name'];
-//$preco = $row['sell_price'];
  
 mysqli_close($link);
  
@@ -99,13 +98,19 @@ if (!empty($error)) {
         <tr>
             <td style="text-align: right;">Nome:</td>
             <td>
-            <input type="text" name="nome" value="<?= htmlspecialchars($name); ?>">
+                <input type="text" name="nome" value="<?= htmlspecialchars($name); ?>">
             </td>
         </tr>
         <tr>
             <td style="text-align: right;">Preço de compra:</td>
             <td>
-            <input type="text" name="preco_compra" value="<?= isset($buy_price) ? htmlspecialchars($buy_price) : ''; ?>">
+                <input type="text" name="preco_compra" value="<?= isset($buy_price) ? htmlspecialchars($buy_price) : ''; ?>">
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: right;">Preço:</td>
+            <td>
+                <input type="text" name="preco" value="<?= htmlspecialchars($sell_price); ?>">
             </td>
         </tr>
         <tr>
@@ -124,23 +129,69 @@ if (!empty($error)) {
             </td>
         </tr>
         <tr>
-            <td style="text-align: right;">Conta:</td>
-            <td>
-            <input type="text" name="id_conta" value="<?= isset($id_account) ? htmlspecialchars($id_account) : ''; ?>">
-            </td>
-        </tr>
+            <?php
+            $default_id = isset($id_account) ? htmlspecialchars($id_account) : '';
+            ?>
+			<td style="text-align: right;">Conta:</td>
+			<td>
+				<!-- mostra o id da conta mas disabled para não ser editável -->
+				<input type="number" value="<?= htmlspecialchars($default_id); ?>" disabled="true">
+				<!-- campo oculto para garantir que o id_conta seja submetido no POST -->
+				<input type="hidden" name="id_conta" value="<?= htmlspecialchars($default_id); ?>">
+			</td>
+		</tr>
         <tr>
-            <td style="text-align: right;">Categoria:</td>
-            <td>
-            <input type="text" name="id_categoria" value="<?= isset($id_category) ? htmlspecialchars($id_category) : ''; ?>">
-            </td>
-        </tr>
-        <tr>
-            <td style="text-align: right;">Preço:</td>
-            <td>
-                <input type="text" name="preco" value="<?= htmlspecialchars($sell_price); ?>">
-            </td>
-        </tr>
+			<td style="text-align: right;">Categoria:</td>
+			<td>
+				<?php
+				// buscar categorias (nome e id) e montar select
+				$link = mysqli_connect("localhost", "root", "", "sistema");
+				$categories = [];
+				if ($link) {
+					$res = mysqli_query($link, "SELECT id_category, name FROM category ORDER BY name");
+					if ($res) {
+						while ($row = mysqli_fetch_assoc($res)) {
+							$categories[] = $row;
+						}
+						mysqli_free_result($res);
+					}
+				}
+
+				// valor selecionado previamente (pode ser id)
+				$selected_id = isset($id_category) ? htmlspecialchars($id_category) : '';
+				?>
+				<select id="categoria_select" name="categoria_nome">
+					<option value="">-- Escolha uma categoria --</option>
+					<?php foreach ($categories as $c): ?>
+						<option data-id="<?= htmlspecialchars($c['id_category']); ?>"
+							<?= ($selected_id !== '' && $selected_id == $c['id_category']) ? 'selected' : ''; ?>>
+							<?= htmlspecialchars($c['name']); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+
+				<!-- campo oculto que será submetido com o id da categoria -->
+				<input type="hidden" id="id_categoria" name="id_categoria" value="<?= htmlspecialchars($selected_id) ?>">
+			</td>
+
+			<script>
+				// popula o campo oculto com o id correspondente ao nome escolhido
+				(function() {
+					var sel = document.getElementById('categoria_select');
+					var hid = document.getElementById('id_categoria');
+
+					function sync() {
+						var opt = sel.options[sel.selectedIndex];
+						hid.value = opt && opt.dataset ? (opt.dataset.id || '') : '';
+					}
+					if (sel) {
+						sel.addEventListener('change', sync);
+						// sincroniza inicialmente (caso já venha selecionado)
+						sync();
+					}
+				})();
+			</script>
+		</tr>
         <tr>
             <td colspan="2" style="text-align: center;">
                 <input type="submit" name="submit" value="Atualizar">
