@@ -29,12 +29,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$error .= " Categoria obrigatória! ";
 	}
 	if (!$error) {
+		$active = ($ativo=="Sim")?'Y':'N';
 		$link = mysqli_connect("localhost", "root", "", "sistema");
 		$sql = "";
 		$sql .= " INSERT INTO product ";
 		$sql .= " (name, sell_price, buy_price, stock, image, description, active, id_account, id_category) ";
 		$sql .= " VALUES ";
-		$sql .= " ('".$nome."', '".$preco."', '".$preco_compra."', '".$estoque."', '".$imagem."', '".$descricao."', '".$ativo."', '".$id_conta."', '".$id_categoria."')";
+		$sql .= " ('".$nome."', '".$preco."', '".$preco_compra."', '".$estoque."', '".$imagem."', '".$descricao."', '".$active."', '".$id_conta."', '".$id_categoria."')";
 		$result = mysqli_query($link, $sql);
 		header("Location: /sistema/admin/prod");
 		exit;

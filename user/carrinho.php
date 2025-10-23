@@ -48,11 +48,11 @@ if (isset($_GET["a"])) {
     <?php
     if (isset($_COOKIE["carrinho"])) {
         $link = mysqli_connect("localhost", "root", "", "sistema");
-        $sql = "SELECT * FROM prod WHERE id IN (" . $_COOKIE["carrinho"] . ") ORDER BY nome";
+        $sql = "SELECT * FROM product WHERE id_product IN (" . $_COOKIE["carrinho"] . ") ORDER BY name";
         $result = mysqli_query($link, $sql);
         if ($result) {
             while ($row = mysqli_fetch_assoc($result)) {
-                echo $row["nome"] . " <a href=\"/sistema/user/carrinho.php?r=" . $row["id"] . "\">
+                echo $row["name"] . " <a href=\"/sistema/user/carrinho.php?r=" . $row["id_product"] . "\">
                     REMOVA</a><br>";
             }
         }

@@ -34,6 +34,27 @@ body {
     background-image: linear-gradient(135deg, #eef2f3 0%, #d8e1e7 100%); /* Gradiente sutil */
 }
 
+/*Estilo do registro*/
+.dados-pessoais {
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px; /* Bordas bem arredondadas */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box; /* Garante que padding não afete a largura total */
+}
+
+.dados-endereco {
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px; /* Bordas bem arredondadas */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+    width: 100%;
+    max-width: 900px;
+    box-sizing: border-box; /* Garante que padding não afete a largura total */
+}
+
 /* Container principal do formulário */
 .login-container {
     padding: 40px;
@@ -41,7 +62,7 @@ body {
     border-radius: 12px; /* Bordas bem arredondadas */
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
     width: 100%;
-    max-width: 380px;
+    max-width: 1000px;
     box-sizing: border-box; /* Garante que padding não afete a largura total */
 }
 

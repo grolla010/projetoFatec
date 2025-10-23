@@ -21,11 +21,11 @@ if (empty($_SESSION["CONTA_ID"])) {
 
 <?php
 $link = mysqli_connect('localhost', 'root', '', 'sistema');
-$sql = "select * from prod";
+$sql = "select * from product";
 if (isset($_GET['kw']) && $_GET['kw']) {
-    $sql .= " where nome like '%" . $_GET['kw'] . "%'";
+    $sql .= " where name like '%" . $_GET['kw'] . "%'";
 }
-$sql .= " order by nome";
+$sql .= " order by name";
 $result = mysqli_query($link, $sql);
 if (mysqli_num_rows($result) > 0) {
 ?>
@@ -39,10 +39,10 @@ if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
             <tr>
-                <td><?= $row["nome"]; ?></td>
-                <td><?= $row["preco"]; ?></td>
+                <td><?= $row["name"]; ?></td>
+                <td><?= $row["sell_price"]; ?></td>
                 <td>
-                    <a href="/sistema/user/carrinho.php?a=<?= $row["id"]; ?>" style="color: black;">Adicionar +</a>
+                    <a href="/sistema/user/carrinho.php?a=<?= $row["id_product"]; ?>" style="color: black;">Adicionar +</a>
                 </td>
             </tr>
         <?php
