@@ -108,13 +108,14 @@ if (!empty($_GET['kw_categoria'])) {
     $params[] = '%' . $_GET['kw_categoria'] . '%';
 }
 
+$where[] = "p.active = 'Y'";
+
 if (!empty($where)) {
     // quando há mais de um filtro, aplicamos todos (AND). Se quiser OR, troque " AND " por " OR ".
     $sql .= " WHERE " . implode(" AND ", $where);
 }
 
 $sql .= " ORDER BY p.name";
-
 // Usar prepared statement para evitar SQL injection
 $stmt = mysqli_prepare($link, $sql);
 if ($stmt) {
