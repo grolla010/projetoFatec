@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	} catch (Exception $e) {
 		$mensagem = "Erro ao registrar conta! Tente outro username.";
 ?>
-		<div class="aviso" role="alert" aria-live="assertive">
+		<div class="aviso" role="alert" aria-live="assertive" style="font-weight: bold; text-align: center;">
 			Se o erro persistir, contate o administrador do sistema.
 		</div>
 <?php
