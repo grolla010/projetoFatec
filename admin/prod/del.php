@@ -18,7 +18,7 @@ $id = mysqli_real_escape_string($link, $_GET['id']);
  
 if (isset($_GET['del']) && $_GET['del'] === "yes") {
  
-    $sql = "DELETE FROM product WHERE id = '$id'";
+    $sql = "DELETE FROM product WHERE id_product = '$id'";
    
     if (mysqli_query($link, $sql)) {
         header("Location: /sistema/admin/prod/");
